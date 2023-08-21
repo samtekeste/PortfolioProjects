@@ -27,10 +27,10 @@ join
 	fact_gross_price g
 on 
 	g.product_code = s.product_code and 
-    g.fiscal_year = get_fiscal_year(s.date)
+    	g.fiscal_year = get_fiscal_year(s.date)
 where
 	customer_code = '90002002' and
-		get_fiscal_year(date) = 2021
+	get_fiscal_year(date) = 2021
 order by
 	date desc
 ;
@@ -47,7 +47,7 @@ join
 	fact_gross_price g
 on 
 	g.product_code = s.product_code and
-    g.fiscal_year = get_fiscal_year(s.date)
+    	g.fiscal_year = get_fiscal_year(s.date)
 where
 	s.customer_code = 90002002
 group by
@@ -68,7 +68,7 @@ join
 	fact_gross_price g
 on
 	g.product_code = s.product_code and
-    g.fiscal_year = get_fiscal_year(s.date)
+   	 g.fiscal_year = get_fiscal_year(s.date)
 where
 	customer_code = 90002002
 group by
@@ -116,11 +116,12 @@ join
 	fact_pre_invoice_deductions pre
 on
 	s.customer_code = pre.customer_code and
-    pre.fiscal_year = s.fiscal_year
+    	pre.fiscal_year = s.fiscal_year
 where
-		s.fiscal_year = 2021
+	s.fiscal_year = 2021
 order by
 	date )
+	
 select
 	*
 ,	round((1-pre_invoice_discount_pct) * gross_sales,2) as net_invoice_sales
@@ -139,8 +140,8 @@ join
 	fact_post_invoice_deductions po
 on
 	po.customer_code = ps.customer_code and
-    po.product_code = ps.product_code and
-    po.date = ps.date
+    	po.product_code = ps.product_code and
+    	po.date = ps.date
 ;
 -- Subtask 3: Calculate Net Sales
 
@@ -174,7 +175,8 @@ from
 	net_sales ns
 join
 	dim_customer c
-on ns.customer_code = c.customer_code
+on 
+	ns.customer_code = c.customer_code
 where
 	fiscal_year = 2021
 group by
@@ -236,16 +238,18 @@ limit 5
 		left join
 			fact_sales_monthly s
 		using(date, customer_code, product_code)
-        )
+    )
 ;
-	update facts_actuals_estimates
-    set sold_quantity = 0
-    where sold_quantity is null
-   ; 
+
 update facts_actuals_estimates
-    set forecast_quantity = 0
-    where forecast_quantity is null
-   ; 
+set sold_quantity = 0
+where sold_quantity is null
+; 
+
+update facts_actuals_estimates
+set forecast_quantity = 0
+where forecast_quantity is null
+; 
  -- Generates desired report  
   with fca as (
   
