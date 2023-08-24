@@ -5,12 +5,13 @@ from
 	dim_customer c
 where
 	customer = 'Atliq Exclusive' and
-    region = 'APAC'
+    	region = 'APAC'
 ;    
 -- Task 2: What is the percentage of unique product increase in 2021 vs 2020? The final output should contain:
-			-- unique products 2020
-            -- unique products 2021
-            -- percentage change
+		-- unique products 2020
+           	-- unique products 2021
+                -- percentage change
+
 with temp as (
 	select
 		year(s.date) as year
@@ -45,7 +46,7 @@ cross join
 ;
 -- Task 3: Provide a report with all the unqiue product counts each segment and sort them in descending order of product counts. 
 -- The final output should contain:
-				-- segment
+		-- segment
                 -- product_count
 select
 	p.segment
@@ -99,9 +100,10 @@ with pc20 as (
 )
 	select
 		p.segment
-	,	p.unique_product_2020 as product_count_2020
-    ,	pc.unique_product_2021 as product_count_2021
-    ,	pc.unique_product_2021 - p.unique_product_2020 as difference
+    	, 	p.unique_product_2020 as product_count_2020
+    	,	pc.unique_product_2021 as product_count_2021
+   	,	pc.unique_product_2021 - p.unique_product_2020 as difference
+	
 	from
 		pc20 p
 	join
@@ -111,11 +113,11 @@ with pc20 as (
 	order by
 		difference desc
 ;	
-	
  -- Task 5: Get the products that have the highest and lowest manufacturing costs. Results should include:
-			-- product_code
+	    -- product_code
             -- product
             -- manufacturing_cost
+
         select
             p.product_code
 		,	p.product
@@ -143,7 +145,7 @@ with pc20 as (
 	;
 -- Task 6: Generate a report which contains the top 5 customers who recieved an average high pre_invoice_discount_pct 
 -- for the fiscal year 2021 and in the Indian market. The final output should contain:
-			-- customer_code
+	    -- customer_code
             -- customer
             -- average_discount_percentage
 select
@@ -158,7 +160,7 @@ using
 	(customer_code)
 where
 	pi.fiscal_year = 2021 and
-    c.market = 'India'
+    	c.market = 'India'
 group by
 	c.customer_code
 ,	c.customer
@@ -198,7 +200,7 @@ order by
         
 select
 	case
-		when month(date) in (9,10,11) then 1
+	when month(date) in (9,10,11) then 1
         when month(date) in(12,1,2) then 2
         when month(date) in(3,4,5) then 3
         else 4
@@ -240,7 +242,7 @@ with gsc as (
     select
 		gs.channel
 	,	round(gs.gross_sales_mln,2) as gross_sales_mln
-    ,	round(gs.gross_sales_mln * 100/sum(gs.gross_sales_mln) over(),2) as percentage
+    	,	round(gs.gross_sales_mln * 100/sum(gs.gross_sales_mln) over(),2) as percentage
     from
 		gsc gs		
 ;
@@ -257,7 +259,7 @@ with wrank as (
 	,	p.product_code
 	,	p.product
 	,	sum(s.sold_quantity) as total_sold_quantity
-	,	rank () over(partition by division order by sum(s.sold_quantity) desc)  as rn
+	,	rank () over(partition by division order by sum(s.sold_quantity) desc) as rn
 	from
 		dim_product p
 	join
